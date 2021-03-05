@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@babel/core": "7.12.3",
+    "@babel/helper-create-regexp-features-plugin": "^7.12.17",
     "@pmmmwh/react-refresh-webpack-plugin": "0.4.3",
     "@svgr/webpack": "5.5.0",
     "@testing-library/jest-dom": "^5.11.4",
@@ -102,6 +103,7 @@
   "devDependencies": {
     "@types/react-router-dom": "^5.1.7",
     "@types/styled-components": "^5.1.7",
+    "@types/webpack-env": "1.15.1",
     "svg-sprite-loader": "^5.2.1",
     "svgo-loader": "^3.0.0"
   },

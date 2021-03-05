@@ -9,11 +9,15 @@ import Tags from 'views/Tags';
 import Money from 'views/Money';
 import Statistics from 'views/Statistics';
 import NoMatch from 'views/NoMatch';
+import styled from 'styled-components';
 
+const AppWrapper = styled.div`
+  color: #333;
+`;
 function App() {
   return (
-    <Router>
-
+    <AppWrapper>
+      <Router>
           <Switch>
             <Route path="/tags">
               <Tags/>
@@ -31,8 +35,8 @@ function App() {
             //设置默认路由
             <Redirect exact from="/" to="/money"/>
           </Switch>
-
-    </Router>
+       </Router>
+    </AppWrapper>
   );
 }
 export default App;

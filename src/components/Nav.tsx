@@ -22,7 +22,6 @@ const NavWrapper =styled.nav`
           fill: #999; 
           color: #999;
           width: 26px; 
-          height: 26px;
           margin-bottom: 2px;
         }
         &.selected{

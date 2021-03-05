@@ -28,11 +28,11 @@ function App() {
             <Route path="/statistics">
               <Statistics/>
             </Route>
-            //设置404页面
+
             <Route path="*">
               <NoMatch/>
             </Route>
-            //设置默认路由
+
             <Redirect exact from="/" to="/money"/>
           </Switch>
        </Router>

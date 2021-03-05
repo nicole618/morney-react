@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import React, {useState} from 'react';
-import {setState} from 'jest-circus/build/state';
 
 const Wrapper = styled.section`
   display: flex;

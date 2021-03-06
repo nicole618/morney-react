@@ -25,7 +25,6 @@ function Money() {
       ...obj
                 })
   }
-  onChange({tags:[]})
   return (
     <MyLayout>
       <TagsSection value={selected.tags} onChange={(tags)=>onChange({tags:tags})}/>

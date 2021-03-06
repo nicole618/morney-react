@@ -1,23 +1,29 @@
-import React, {useState} from 'react';
 import {Wrapper} from './NumberSession/Wrapper1';
 import {generateOutput} from './NumberSession/generateOutput';
+import React, {useState} from 'react';
 
-
-const NumberSection:React.FC = ()=>{
-  const [output,_setOutput] = useState<string>('0');
-  const setOutput = (output:string)=>{
-    if(output.length>16){
-      output = output.slice(0,16);
-    }else if(output.length === 0){
-      output = '0';
+type Props = {
+  value:number,
+  onChange:(value:number)=>void
+}
+const NumberSection:React.FC<Props> = (props)=>{
+  const [output, _setOutput] = useState(props.value.toString());
+  const setOutput = (output: string) => {
+    let newOutput: string;
+    if (output.length > 16) {
+      newOutput = output.slice(0, 16);
+    } else if (output.length === 0) {
+      newOutput = '0';
+    } else {
+      newOutput = output;
     }
-    _setOutput(output);
-  }
+    _setOutput(newOutput);
+    props.onChange(parseFloat(newOutput));
+  };
   const onClickButtonWrapper = (e:React.MouseEvent)=>{
      const text = (e.target as HTMLButtonElement).textContent;
      if(text===null)return;
      if(text==='ok'){
-
        return;
      }
      if ('0123456789.'.split('').concat('删除','清空').indexOf(text)>=0){

@@ -7,7 +7,7 @@ const useTags = () =>{ //封装一个自定义Hook
   const count = useRef(0);
   useUpdate(() => {
     window.localStorage.setItem('tags', JSON.stringify(tags));
-  }, [tags])
+  }, tags)
   useEffect(()=>{
     let lTags = window.localStorage.getItem('tags');
     let localTags;

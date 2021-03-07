@@ -5,6 +5,7 @@ import React, {useState} from 'react';
 type Props = {
   value:number,
   onChange:(value:number)=>void
+  onOk?:()=>void
 }
 const NumberSection:React.FC<Props> = (props)=>{
   const [output, _setOutput] = useState(props.value.toString());
@@ -24,6 +25,7 @@ const NumberSection:React.FC<Props> = (props)=>{
      const text = (e.target as HTMLButtonElement).textContent;
      if(text===null)return;
      if(text==='ok'){
+       if (props.onOk)props.onOk()
        return;
      }
      if ('0123456789.'.split('').concat('删除','清空').indexOf(text)>=0){
@@ -45,7 +47,7 @@ const NumberSection:React.FC<Props> = (props)=>{
        <button>7</button>
        <button>8</button>
        <button>9</button>
-       <button className="ok">OK</button>
+       <button className="ok">ok</button>
        <button className="zero">0</button>
        <button>.</button>
      </div>

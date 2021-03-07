@@ -5,8 +5,9 @@ import {useUpdate} from 'hooks/useUpdate';
 const useTags = () =>{ //封装一个自定义Hook
   const [tags,setTags] = useState<{id:number;name:string}[]>([]);
   const count = useRef(0);
-  useUpdate(()=>{
-    window.localStorage.setItem('tags',JSON.stringify(tags));},[tags])
+  useUpdate(() => {
+    window.localStorage.setItem('tags', JSON.stringify(tags));
+  }, [tags])
   useEffect(()=>{
     let localTags =JSON.parse(window.localStorage.getItem('tags') || '[]');
     if(localTags.length === 0){
@@ -17,7 +18,7 @@ const useTags = () =>{ //封装一个自定义Hook
         {id:createId(),name:'行'},
       ]
     }
-    setTags(JSON.parse(window.localStorage.getItem('tags')|| '[]'))
+    setTags(localTags)
   },[])
   const findTag = (id:number) => tags.filter(tag=>tag.id === id)[0];
   const findTagIndex = (id:number)=>{

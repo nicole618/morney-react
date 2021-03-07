@@ -1,10 +1,9 @@
-import {useEffect, useRef, useState} from 'react';
+import {useEffect, useState} from 'react';
 import {createId} from 'lib/createId';
 import {useUpdate} from 'hooks/useUpdate';
 
 const useTags = () =>{ //封装一个自定义Hook
   const [tags,setTags] = useState<{id:number;name:string}[]>([]);
-  const count = useRef(0);
   useUpdate(() => {
     window.localStorage.setItem('tags', JSON.stringify(tags));
   }, tags)

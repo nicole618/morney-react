@@ -21,7 +21,7 @@ const defaultFormData = {
   amount: 0
 };
 
-const CategoryWrapper = styled.div`
+const CategoryWrapper = styled.div`   
     background:#c4c4c4;
 `;
 
@@ -34,8 +34,12 @@ function Money() {
   const submit = () => {
     if (addRecord(selected)) {
       alert('保存成功');
-      //setSelected(defaultFormData);
-      window.location.reload()
+      setSelected({
+                    tagIds: [] as number[],
+                    note: '',
+                    category: '-' as Category,
+                    amount: 0
+                  });
     }
   };
 

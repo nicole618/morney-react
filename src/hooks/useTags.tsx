@@ -9,8 +9,11 @@ const useTags = () =>{ //封装一个自定义Hook
     window.localStorage.setItem('tags', JSON.stringify(tags));
   }, [tags])
   useEffect(()=>{
-    let localTags =JSON.parse(window.localStorage.getItem('tags') || '[]');
-    if(localTags.length === 0){
+    let lTags = window.localStorage.getItem('tags');
+    let localTags;
+    if(lTags){
+      localTags =JSON.parse(lTags)
+    }else{
       localTags =[
         {id:createId(),name:'衣'},
         {id:createId(),name:'食'},
@@ -43,7 +46,11 @@ const useTags = () =>{ //封装一个自定义Hook
       setTags([...tags,{id:createId(),name:tagName}])
     }
   }
-  return {tags,setTags,findTag,updateTag,findTagIndex,deleteTag,addTag};
+  const getName = (id:number) =>{
+    const tag = tags.filter(t=>t.id === id)[0];
+    return tag ? tag.name : '';
+  }
+  return {tags,getName,setTags,findTag,updateTag,findTagIndex,deleteTag,addTag};
 }
 
 export {useTags}

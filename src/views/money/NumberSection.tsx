@@ -25,7 +25,10 @@ const NumberSection:React.FC<Props> = (props)=>{
      const text = (e.target as HTMLButtonElement).textContent;
      if(text===null)return;
      if(text==='ok'){
-       if (props.onOk)props.onOk()
+       if (props.onOk){
+         props.onOk();
+         setOutput('')
+       }
        return;
      }
      if ('0123456789.'.split('').concat('删除','清空').indexOf(text)>=0){

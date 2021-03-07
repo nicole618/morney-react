@@ -17,7 +17,7 @@ const NumberSection:React.FC<Props> = (props)=>{
       newOutput = '0';
     } else {
       newOutput = output;
-    }
+  }
     _setOutput(newOutput);
     props.onChange(parseFloat(newOutput));
   };
@@ -49,7 +49,7 @@ const NumberSection:React.FC<Props> = (props)=>{
        <button>9</button>
        <button className="ok">ok</button>
        <button className="zero">0</button>
-       <button>.</button>
+       <button className="dot">.</button>
      </div>
    </Wrapper>
   )

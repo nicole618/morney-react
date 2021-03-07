@@ -4,7 +4,6 @@ import React, {useState} from 'react';
 const Wrapper = styled.section`
   >ul{
     display: flex;
-    background: #c4c4c4;
     font-size: 24px;
     >li{
       width: 50%;

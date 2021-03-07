@@ -22,7 +22,7 @@ export const useRecords =()=>{
   useUpdate(()=>{
     window.localStorage.setItem('records',JSON.stringify(records));
   },[records])
-  const addRecords = (newRecord:newRecordItem)=>{
+  const addRecord = (newRecord:newRecordItem)=>{
     if(newRecord.amount <=0 ){alert('请输入金额');return false;}
     if(newRecord.tagIds.length === 0){
       alert('请选择一个标签');
@@ -32,5 +32,5 @@ export const useRecords =()=>{
     setRecords([...records,record]);
     return true;
   }
-  return {records,addRecords}
+  return {records,addRecord}
 }

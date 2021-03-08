@@ -32,12 +32,10 @@ function App() {
             <Route path="/statistics" exact>
               <Statistics/>
             </Route>
-
+            <Redirect exact from="/" to="/money"/>
             <Route path="*">
               <NoMatch/>
             </Route>
-
-            <Redirect exact from="/" to="/money"/>
           </Switch>
        </Router>
     </AppWrapper>

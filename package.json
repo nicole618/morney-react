@@ -2,6 +2,7 @@
   "name": "merney",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://nicole618.github.io/morney-react",
   "dependencies": {
     "@babel/core": "7.12.3",
     "@babel/helper-create-regexp-features-plugin": "^7.12.17",

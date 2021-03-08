@@ -34,12 +34,7 @@ function Money() {
   const submit = () => {
     if (addRecord(selected)) {
       alert('保存成功');
-      setSelected({
-                    tagIds: [] as number[],
-                    note: '',
-                    category: '-' as Category,
-                    amount: 0
-                  });
+      setSelected(defaultFormData);
     }
   };
 

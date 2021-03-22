@@ -1,0 +1,36 @@
+@import "helper";
+.rs-picker-has-value .rs-btn .rs-picker-toggle-value, .rs-picker-has-value .rs-picker-toggle .rs-picker-toggle-value{
+  color: inherit;
+}
+.rs-picker-default:not(.rs-picker-disabled) .rs-btn:hover, .rs-picker-default:not(.rs-picker-disabled) .rs-picker-toggle:hover, .rs-picker-default:not(.rs-picker-disabled) .rs-btn.active, .rs-picker-default:not(.rs-picker-disabled) .rs-picker-toggle.active{
+  border:none;
+}
+.rs-picker-toolbar-right-btn-ok{
+  background-color: $color-highLight;
+
+}
+.rs-calendar-table-cell-selected .rs-calendar-table-cell-content{
+  background-color: $color-highLight;
+  border: none;
+}
+.rs-calendar-table-cell-is-today .rs-calendar-table-cell-content{
+  border-color: $color-highLight;
+}
+.rs-picker-toolbar-right-btn-ok:not(.rs-btn-disabled):hover {
+  background-color: $color-highLight;
+}
+.rs-picker-toolbar-option{
+  color: inherit;
+}
+.rs-picker-toolbar-option:hover{
+  color: $color-highLight;
+}
+.rs-calendar-table-cell-content:hover{
+  background-color: $color-Light;
+}
+.rs-picker-default .rs-picker-toggle{
+  border: none;
+}
+.rs-picker-default .rs-btn, .rs-picker-input .rs-btn, .rs-picker-default .rs-picker-toggle, .rs-picker-input .rs-picker-toggle{
+  background: none !important;
+}

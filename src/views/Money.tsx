@@ -6,7 +6,7 @@ import {NoteSection} from './money/NoteSection';
 import {CategorySection} from './money/CategorySection';
 import {NumberSection} from './money/NumberSection';
 import {useRecords} from 'hooks/useRecords';
-
+import {Pickers} from './Pickers';
 const MyLayout = styled(Layout)`
   display:flex;
   flex-direction: column;
@@ -18,7 +18,8 @@ const defaultFormData = {
   tagIds: [] as number[],
   note: '',
   category: '-' as Category,
-  amount: 0
+  amount: 0,
+  datetime: new Date(),
 };
 
 function Money() {
@@ -36,15 +37,18 @@ function Money() {
 
   return (
     <MyLayout>
+
       <CategorySection value={selected.category}
                        onChange={category => onChange({category})}/>
       <TagsSection value={selected.tagIds}
                    onChange={tagIds => onChange({tagIds})}/>
       <NoteSection value={selected.note}
                    onChange={note => onChange({note})}/>
+      <Pickers value={selected.datetime} onChange={datetime => onChange({datetime})} placeholder="请输入日期" format="YYYY-MM-DD" placement="topStart"/>
       <NumberSection value={selected.amount}
                         onChange={amount => onChange({amount})}
                         onOk={submit}/>
+      {JSON.stringify(selected)}
     </MyLayout>
   );
 }

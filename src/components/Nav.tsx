@@ -6,7 +6,6 @@ import 'helper.scss'
 
 const NavWrapper =styled.nav`
   box-shadow: 0 0 3px rgba(0,0,0,.25);
-  line-height: 24px;
   background: #fff;
   >ul{
     display: flex;
@@ -22,6 +21,7 @@ const NavWrapper =styled.nav`
         align-items: center;
         >.icon{
           width: 26px; 
+          height: 26px;
           margin-bottom: 2px;
         }
         &.selected{

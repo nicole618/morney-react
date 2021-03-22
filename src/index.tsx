@@ -1,9 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
-import 'antd-mobile/dist/antd-mobile.css';
-import 'index.scss'
-ReactDOM.render(
+import 'rsuite/dist/styles/rsuite-default.css';
+import './resetRsuite.scss'
+import 'index.scss';
+
+  ReactDOM.render(
     <App />,
   document.getElementById('root')
 );

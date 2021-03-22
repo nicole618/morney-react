@@ -462,6 +462,7 @@ module.exports = function (webpackEnv) {
                   [
                     require.resolve('babel-preset-react-app/dependencies'),
                     { helpers: true },
+                    "rsuite",
                   ],
                 ],
                 cacheDirectory: true,

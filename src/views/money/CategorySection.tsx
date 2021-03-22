@@ -1,24 +1,26 @@
 import styled from 'styled-components';
 import React, {useState} from 'react';
+import Icon from '../../components/Icon';
 
 const Wrapper = styled.section`
   >ul{
     display: flex;
-    font-size: 24px;
+    font-size: 20px;
+    background: #edccb8;
     >li{
       width: 50%;
       text-align: center;
-      padding: 16px 0;
+      padding: 12px 0;
       position: relative;
-      &.selected::after{
-        content: '';
-        display: block;
-        height: 3px;
-        background: #333;
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 100%;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      .icon{
+        margin-right: 4px;
+      }
+      &.selected{
+        color: #fb5f03;
       }
     }
   }
@@ -36,7 +38,8 @@ const CategorySection:React.FC<Props> = (props)=>{
       <ul>
         {categoryList.map(c=>
             <li key={c} className = { category === c ? 'selected':'' }
-                onClick={()=>props.onChange(c)}>{categoryMap[c]}
+                onClick={()=>props.onChange(c)}>
+              <Icon name={ c === '-' ? 'spend':'income'}/>{categoryMap[c]}
             </li>
         )}
       </ul>

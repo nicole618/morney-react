@@ -1,6 +1,7 @@
 import {Wrapper} from './NumberSession/Wrapper1';
 import {generateOutput} from './NumberSession/generateOutput';
 import React, {useState} from 'react';
+import Icon from 'components/Icon';
 
 type Props = {
   value:number,
@@ -42,7 +43,7 @@ const NumberSection:React.FC<Props> = (props)=>{
        <button>1</button>
        <button>2</button>
        <button>3</button>
-       <button>删除</button>
+       <button><Icon name="delete"/></button>
        <button>4</button>
        <button>5</button>
        <button>6</button>

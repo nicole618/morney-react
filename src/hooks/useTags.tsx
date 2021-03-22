@@ -14,10 +14,54 @@ const useTags = () =>{ //封装一个自定义Hook
       localTags =JSON.parse(lTags)
     }else{
       localTags =[
-        {id:createId(),name:'衣'},
-        {id:createId(),name:'食'},
-        {id:createId(),name:'住'},
-        {id:createId(),name:'行'},
+        {
+          id: createId(),
+          name: 'clothing',
+          textValue: '衣',
+          type: '-'
+        },
+        {
+          id: createId(),
+          name: 'food',
+          textValue: '食',
+          type: '-'
+        },
+        {
+          id: createId(),
+          name: 'live',
+          textValue: '住',
+          type: '-'
+        },
+        {
+          id: createId(),
+          name: 'travel',
+          textValue: '行',
+          type: '-'
+        },
+        {
+          id: createId(),
+          name: 'wages',
+          textValue: '工资',
+          type: '+'
+        },
+        {
+          id: createId(),
+          name: 'stock',
+          textValue: '股票',
+          type: '+'
+        },
+        {
+          id: createId(),
+          name: 'fiscal',
+          textValue: '理财',
+          type: '+'
+        },
+        {
+          id: createId(),
+          name: 'lottery',
+          textValue: '彩票',
+          type: '+'
+        }
       ]
     }
     setTags(localTags)
@@ -49,7 +93,11 @@ const useTags = () =>{ //封装一个自定义Hook
     const tag = tags.filter(t=>t.id === id)[0];
     return tag ? tag.name : '';
   }
-  return {tags,getName,setTags,findTag,updateTag,findTagIndex,deleteTag,addTag};
+  const getIcons = ()=>{
+    return  ['clothing','food','live','travel','wages','stock','fiscal','lottery',
+      'custom1','custom2','custom3','custom4','custom5','custom6','custom7','custom8'];
+  }
+  return {tags,getName,setTags,findTag,updateTag,findTagIndex,deleteTag,addTag,getIcons};
 }
 
 export {useTags}

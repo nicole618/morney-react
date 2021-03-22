@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import {NavLink} from 'react-router-dom';
 import React from 'react';
 import Icon from './Icon';
-
+import 'helper.scss'
 
 const NavWrapper =styled.nav`
   box-shadow: 0 0 3px rgba(0,0,0,.25);
@@ -14,22 +14,18 @@ const NavWrapper =styled.nav`
       width: 33.3333%;
       text-align: center;
       padding: 5px 0;
+      color: #edccb8;
       >a{
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
         >.icon{
-          fill: #999; 
-          color: #999;
           width: 26px; 
           margin-bottom: 2px;
         }
         &.selected{
-          color: #000;
-          .icon{
-            fill: #000;
-          }
+          color: #fb5f03;
         }
       }
     }

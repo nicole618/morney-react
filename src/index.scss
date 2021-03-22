@@ -23,8 +23,10 @@ body{
 }
 .icon{
   width: 1em;
-  height: 1em
-;
+  height: 1em;
+  font-size: inherit;
+  fill: currentColor;
+
 }
 button,input{
   font: inherit;

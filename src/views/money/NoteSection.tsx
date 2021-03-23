@@ -5,6 +5,8 @@ type  Props = {
   value:string,
   onChange:(value:string)=>void,
   maxlength?:number,
+  placeholder:string,
+  label:string,
 }
 const NoteSection:React.FC<Props> = (props)=>{
   const note = props.value;
@@ -13,7 +15,9 @@ const NoteSection:React.FC<Props> = (props)=>{
     props.onChange(e.target.value)
   }
   return(
-        <Input label="备注：" type="text" value={note}  onChange={onChange} placeholder="在这里添加备注" maxLength={maxlength !== undefined ? maxlength : 1000}/>
+        <Input label={props.label} type="text" value={note}
+               onChange={onChange} placeholder={props.placeholder}
+               maxLength={maxlength !== undefined ? maxlength : 1000}/>
   )
 }
 

@@ -36,8 +36,7 @@ const Label = styled.label`
   }
 `;
 type Props = {
-  label: string,
-  maxLength?: number,
+  label: string
 }& React.InputHTMLAttributes<HTMLInputElement>
 const Input:React.FC<Props> = (props)=>{
   const {label,...reset} = props

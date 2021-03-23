@@ -60,12 +60,11 @@ const TagList = styled.ol`
         }
       }
     }
-    
-    
   }
+  
 `;
 function Tags() {
-  const {addTag,findTagByType,deleteTag} = useTags();
+  const {findTagByType,deleteTag} = useTags();
   const query = new URLSearchParams(useLocation().search).get('queryTagType');
   let initialType: Category = '-';
   if( query && query.trim() === '收入'){
@@ -111,7 +110,6 @@ function Tags() {
                           <Icon name="deleteTag"/>
                         </span>
                       </div>
-
                     </li>
         )}
         <Modal backdrop="static" show={state} onHide={()=>close()} size="xs" >
@@ -137,7 +135,7 @@ function Tags() {
       </TagList>
       <Space/><Space/>
       <Center>
-        <Link to={"/addEditTag/"+tagType}>
+        <Link to={"/addEditTag/"+tagType} className="addEdit">
           新增{tagType === '+' ? '收入':'支出'}标签
         </Link>
       </Center>

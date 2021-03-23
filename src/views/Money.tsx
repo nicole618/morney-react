@@ -8,16 +8,14 @@ import {NumberSection} from './money/NumberSection';
 import {RecordItem, useRecords} from 'hooks/useRecords';
 import {Pickers} from './Pickers';
 import {Alert} from 'rsuite';
+import {Category} from '../hooks/typeState';
 
 const MyLayout = styled(Layout)`
   display:flex;
   flex-direction: column;
 `;
 
-type Category = '-' | '+'
-type Tag = {
 
-}
 const defaultFormData: RecordItem = {
   tag: {id:-1,name:'',textValue:'',type:''},
   note: '',

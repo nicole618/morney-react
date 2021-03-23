@@ -1,6 +1,7 @@
 import {useEffect, useState} from 'react';
 import {createId} from 'lib/createId';
 import {useUpdate} from 'hooks/useUpdate';
+import {Category} from './typeState';
 
 export  type Tag = {
   id: number,
@@ -84,6 +85,9 @@ const useTags = () =>{ //封装一个自定义Hook
     }
     return result;
   }
+  const findTagByType = (type: Category) => {
+    return tags.filter(tag => tag.type === type);
+  }
   const updateTag = (id:number,obj:{name:string,type:string})=>{
     //setTags(tags.map(tag=>tag.id === id ?{id:id,name:obj.name,type:obj.type}:tag));
   };
@@ -104,7 +108,7 @@ const useTags = () =>{ //封装一个自定义Hook
     return  ['clothing','food','live','travel','wages','stock','fiscal','lottery',
       'custom1','custom2','custom3','custom4','custom5','custom6','custom7','custom8'];
   }
-  return {tags,getName,setTags,findTag,updateTag,findTagIndex,deleteTag,addTag,getIcons};
+  return {tags,getName,setTags,findTag,updateTag,findTagIndex,deleteTag,addTag,getIcons,findTagByType};
 }
 
 export {useTags}

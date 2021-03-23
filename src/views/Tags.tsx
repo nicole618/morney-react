@@ -1,51 +1,113 @@
 import Layout from 'components/Layout';
-import React from 'react';
+import React, {useState} from 'react';
 import {useTags} from 'hooks/useTags';
 import styled from 'styled-components';
 import Icon from 'components/Icon';
-import {Link} from 'react-router-dom';
-import {Button} from 'components/Button';
+import {Link,useLocation} from 'react-router-dom';
+import {Button as Button1} from 'components/Button';
 import {Center} from 'components/Center';
 import {Space} from '../components/Space';
-
+import {CategorySection} from './money/CategorySection';
+import {Category, categoryMap} from 'hooks/typeState';
+import { Modal ,Button,Icon as Iconrs} from 'rsuite';
 const TagList = styled.ol`
-  font-size: 16px;
-  background: #fff;
+  padding: 16px 0;
+  flex-grow: 1;
   > li {
-    border-bottom: 1px solid #D5D5D5;
-    line-height: 20px;
-    margin-left: 16px;
-    .icon{
-      width: 25px;
-      height: 25px;
-      fill:#999;
-    }
-    a{
+    display: flex;
+    justify-content: space-between;
+    padding: 0 16px;
+    border-bottom: 1px solid #fff;
+    background: #f3eeeb;
+    height: 40px;
+    >div{
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      padding: 12px 16px 12px 0;
     }
+    .tagLeft{
+      .icon{
+        color: #999;
+        margin-right: 5px;
+        width: 20px;
+        height: 20px;
+      }
+    }
+    .tagRight{
+      a{
+        margin-right: 5px;
+        span{
+          background:#edccb8 ;
+          &:hover{
+            background: #fb5f03;
+          }
+        }
+      }
+      span{
+        width: 26px;
+        height: 26px;
+        background: #f56c6c;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        cursor: pointer;
+        .icon{
+          width: 18px;
+          height: 18px;
+        }
+        &:hover{
+          background: #f78989;
+        }
+      }
+    }
+    
+    
   }
 `;
 function Tags() {
-  const {tags,addTag} = useTags();
+  const {addTag,findTagByType} = useTags();
+  const query = new URLSearchParams(useLocation().search).get('queryTagType');
+  let initialType: Category = '-';
+  if( query && query.trim() === '收入'){
+    initialType = '+';
+  }
+
+  const [tagType,setTagType] = useState<Category>(initialType);
+  const onChange = (tagType: Category) => {
+    setTagType(tagType);
+  };
+  const tagsByType = findTagByType(tagType);
   return (
     <Layout>
-      <TagList>
-        {tags.map(tag=>
+      <CategorySection value={tagType}
+                       onChange={tagType => onChange(tagType)}/>
+      <TagList className="hideScroll">
+        {tagsByType.map(tag=>
                     <li key={tag.id}>
-                      <Link to={'/tags/'+tag.id}>
-                        <span className="onLine">{tag.name}</span>
-                        <Icon name="right"></Icon>
-                      </Link>
+                      <div className="tagLeft">
+                        <Icon name={tag.name}/>
+                        <span className="onLine">{tag.textValue}</span>
+                      </div>
+                      <div className="tagRight">
+                        <Link to={'/tags/'+tag.id}>
+                          <span>
+                          <Icon name="editTag"/>
+                        </span>
+                        </Link>
+                        <span>
+                          <Icon name="deleteTag"/>
+                        </span>
+                      </div>
+
                     </li>
         )}
       </TagList>
       <Space/><Space/>
       <Center>
-        <Button onClick={addTag}>新增标签</Button>
+        <Button1 onClick={addTag}>新增{tagType === '+' ? '收入':'支出'}标签</Button1>
       </Center>
+      <Space/><Space/>
     </Layout>
   );
 

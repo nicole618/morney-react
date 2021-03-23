@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import React, {useState} from 'react';
-import Icon from '../../components/Icon';
+import Icon from 'components/Icon';
+import {Category, categoryMap} from 'hooks/typeState';
 
 const Wrapper = styled.section`
   >ul{
@@ -27,10 +28,9 @@ const Wrapper = styled.section`
 `;
 type  Props = {
   value:'-'|'+',
-  onChange:(value:'-'|'+')=>void
+  onChange:(value: Category)=>void
 }
 const CategorySection:React.FC<Props> = (props)=>{
-  const categoryMap = {'-':'支出','+':'收入'};
   const [categoryList] = useState<('-'|'+')[]>(['-','+']);
   const category = props.value;
   return (

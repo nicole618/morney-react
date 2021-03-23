@@ -3,8 +3,8 @@ import {Tag, useTags} from 'hooks/useTags';
 import React from 'react';
 import Icon from 'components/Icon';
 import 'animation.scss'
-import { Route } from 'react-router'
-import {NavLink} from 'react-router-dom';
+import {Link} from 'react-router-dom';
+import {Category, categoryMap} from '../../hooks/typeState';
 const Wrapper = styled.section`
   background: #fff;
   padding: 12px 16px;
@@ -57,11 +57,11 @@ const Wrapper = styled.section`
 type Props ={
   value:Tag,
   onChange:(tag: Tag)=>void,
-  type: string
+  type: Category
 }
 
 const TagsSection:React.FC<Props> = (props)=>{
-  const {tags,addTag} = useTags();
+  const {tags} = useTags();
   const selectedTag = props.value;
   const typeTags: Tag[] = tags.filter(tag=>tag.type === props.type)
   const onToggleTag = (tag:Tag)=>{
@@ -74,19 +74,19 @@ const TagsSection:React.FC<Props> = (props)=>{
   }
   const getClass = (tagId:number)=> selectedTag.id === tagId ? 'selected':'';
   return(
-  <Wrapper>
+  <Wrapper className="hideScroll">
     <ol>
       {typeTags.map(tag=><li key={tag.id} onClick={()=>{onToggleTag(tag)}} className={getClass(tag.id)}>
         <div><Icon name={tag.name}/></div>
         <p>{tag.textValue}</p>
       </li>)}
       <li>
-        <NavLink to="/tags" >
+        <Link to={`/tags?queryTagType= ${categoryMap[props.type]}` }>
           <div>
             <Icon name="add"/>
           </div>
           <p>编辑标签</p>
-        </NavLink>
+        </Link>
       </li>
   </ol>
   </Wrapper>

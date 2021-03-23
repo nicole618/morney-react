@@ -66,13 +66,26 @@ const TagList = styled.ol`
   }
 `;
 function Tags() {
-  const {addTag,findTagByType} = useTags();
+  const {addTag,findTagByType,deleteTag} = useTags();
   const query = new URLSearchParams(useLocation().search).get('queryTagType');
   let initialType: Category = '-';
   if( query && query.trim() === '收入'){
     initialType = '+';
   }
+  const [state, setState] = useState(false);
+  const [deleteId,setDeleteId] = useState(-1);
+  const show = (id: number) =>{
+    setDeleteId(id)
+    setState(true)
+  }
 
+  const close = () =>{
+    setState(false)
+  }
+  const confirm = () =>{
+    deleteTag(deleteId)
+    close();
+  }
   const [tagType,setTagType] = useState<Category>(initialType);
   const onChange = (tagType: Category) => {
     setTagType(tagType);
@@ -95,11 +108,30 @@ function Tags() {
                           <Icon name="editTag"/>
                         </span>
                         </Link>
-                        <span>
+                        <span onClick={()=>show(tag.id)}>
                           <Icon name="deleteTag"/>
                         </span>
                       </div>
-
+                      <Modal backdrop="static" show={state} onHide={()=>close()} size="xs" >
+                        <Modal.Body>
+                          <Iconrs
+                            icon="remind"
+                            style={{
+                              color: '#ffb300',
+                              fontSize: 24
+                            }}
+                          />
+                           确认删除标签？
+                        </Modal.Body>
+                        <Modal.Footer>
+                          <Button onClick={()=>confirm()} appearance="primary">
+                            删除
+                          </Button>
+                          <Button onClick={()=>close()} appearance="subtle">
+                            取消
+                          </Button>
+                        </Modal.Footer>
+                      </Modal>
                     </li>
         )}
       </TagList>

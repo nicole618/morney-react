@@ -39,8 +39,8 @@ const Tag:React.FC = (props)=> {
   const tag = findTag(parseInt(idString));
   const tagContent = (tag:{id:number;name:string})=>(<div>
     <InputWrapper>
-      <Input label="标签名" type="text" placeholder="标签名" value={tag.name}
-             onChange={(e) => {updateTag(tag.id, {name: e.target.value})}}/>
+      {/*<Input label="标签名" type="text" placeholder="标签名" value={tag.name}
+             onChange={(e) => {updateTag(tag.id, {name: e.target.value})}}/>*/}
     </InputWrapper>
     <Center>
       <Space/>

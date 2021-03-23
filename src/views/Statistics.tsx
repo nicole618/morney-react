@@ -33,14 +33,14 @@ function Statistics() {
   const {getName} = useTags();
   const selectedRecords = records.filter(r => r.category === category);
   const hash:{[K:string]:RecordItem[]} = {};
-  selectedRecords.map((r) => {
+  /*selectedRecords.map((r) => {
     const key = day(r.createAt).format('YYYY-MM-DD');
     if(!(key in hash)){
       hash[key] = [];
     }
     hash[key].push(r);
     return '';
-  });
+  });*/
 
   const array = Object.entries(hash).sort((a,b)=>{
     if(a[0] === b[0]) return 0;
@@ -53,7 +53,7 @@ function Statistics() {
       <CategoryWrapper>
       <CategorySection value={category} onChange={value => setCategory(value)}/>
       </CategoryWrapper>
-      <div>
+      {/*<div>
         {array.map(([date,records])=> <div key={Math.random()}>
           <Header>{date}</Header>
           <div>
@@ -61,8 +61,8 @@ function Statistics() {
               records.map(r=>{
                 return <Item key={Math.random()}>
                   <div className="tags onLine">
-                    {r.tagIds.map(tagId => <span key={tagId}>{
-                      getName(tagId)}</span>).reduce(
+                    {r.tag.map(tag => <span key={tag.id}>{
+                      getName(tag.id)}</span>).reduce(
                         (result,span,index,array)=>
                           result.concat(index<array.length-1?[span,',']:[span]),[] as ReactNode[])}
                   </div>
@@ -80,7 +80,7 @@ function Statistics() {
 
         )}
 
-      </div>
+      </div>*/}
     </Layout>
   );
 }

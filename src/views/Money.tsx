@@ -5,17 +5,21 @@ import {TagsSection} from './money/TagsSection';
 import {NoteSection} from './money/NoteSection';
 import {CategorySection} from './money/CategorySection';
 import {NumberSection} from './money/NumberSection';
-import {useRecords} from 'hooks/useRecords';
+import {RecordItem, useRecords} from 'hooks/useRecords';
 import {Pickers} from './Pickers';
+import {Alert} from 'rsuite';
+
 const MyLayout = styled(Layout)`
   display:flex;
   flex-direction: column;
 `;
 
 type Category = '-' | '+'
+type Tag = {
 
-const defaultFormData = {
-  tagIds: [] as number[],
+}
+const defaultFormData: RecordItem = {
+  tag: {id:-1,name:'',textValue:'',type:''},
   note: '',
   category: '-' as Category,
   amount: 0,
@@ -30,7 +34,7 @@ function Money() {
   };
   const submit = () => {
     if (addRecord(selected)) {
-      alert('保存成功');
+      Alert.success('保存成功');
       setSelected(defaultFormData);
     }
   };
@@ -40,8 +44,10 @@ function Money() {
 
       <CategorySection value={selected.category}
                        onChange={category => onChange({category})}/>
-      <TagsSection value={selected.tagIds}
-                   onChange={tagIds => onChange({tagIds})}/>
+      <TagsSection value={selected.tag}
+                   onChange={tag => onChange({tag})}
+                   type = {selected.category}
+      />
       <NoteSection value={selected.note}
                    onChange={note => onChange({note})}/>
       <Pickers value={selected.datetime} onChange={datetime => onChange({datetime})} placeholder="请输入日期" format="YYYY-MM-DD" placement="topStart"/>

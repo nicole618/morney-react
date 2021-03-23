@@ -1,22 +1,49 @@
 import styled from 'styled-components';
-import {useTags} from 'hooks/useTags';
+import {Tag, useTags} from 'hooks/useTags';
 import React from 'react';
-
+import Icon from 'components/Icon';
+import 'animation.scss'
+import { Route } from 'react-router'
+import {NavLink} from 'react-router-dom';
 const Wrapper = styled.section`
   background: #fff;
   padding: 12px 16px;
   flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  align-items: flex-start;
   >ol{
-    margin: 0 -12px;
-    >li{background: #D9D9D9;border-radius: 18px;
-      display: inline-block;padding: 3px 18px;
-      font-size: 14px;margin: 8px 12px;
+    display: flex;
+    flex-wrap: wrap;
+    >li{
+      display: flex;
+      flex-direction: column;
+      text-align: center;
+      justify-items: center;
+      width: 23%;
+      margin: 1%;
+      div{
+        background: #f3eeeb;
+        height: 40px;
+        width: 100%;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        margin-bottom: 5px;
+        .icon{
+          width: auto;
+          height: 60%;
+        }
+      }
       &.selected{
-        background: #aaa;
+        color: #fb5f03;
+        div{
+          background: #fb5f03;
+          color: #fff;
+          .icon{
+            -webkit-animation: icon-bounce .5s alternate;
+            animation: icon-bounce .5s alternate;
+          }
+        }
       }
     }
   }
@@ -26,30 +53,42 @@ const Wrapper = styled.section`
     color: #666;margin-top: 8px;
   }
 `;
+
 type Props ={
-  value:number[],
-  onChange:(selected:number[])=>void
+  value:Tag,
+  onChange:(tag: Tag)=>void,
+  type: string
 }
+
 const TagsSection:React.FC<Props> = (props)=>{
   const {tags,addTag} = useTags();
-  const selectedTagIds = props.value;
-
-  const onToggleTag = (tagId:number)=>{
-    const index =selectedTagIds.indexOf(tagId);
-    if(index>=0){
+  const selectedTag = props.value;
+  const typeTags: Tag[] = tags.filter(tag=>tag.type === props.type)
+  const onToggleTag = (tag:Tag)=>{
+    if(selectedTag.id === tag.id){
       //如果有当前选中元素，就过滤掉当前元素
-      props.onChange(selectedTagIds.filter(t=> t !== tagId))
+      props.onChange({} as Tag)
     }else{
-      props.onChange([...selectedTagIds,tagId])
+      props.onChange(tag)
     }
   }
-  const getClass = (tagId:number)=> selectedTagIds.indexOf(tagId)>=0?'selected':'';
+  const getClass = (tagId:number)=> selectedTag.id === tagId ? 'selected':'';
   return(
   <Wrapper>
     <ol>
-      {tags.map(tag=><li key={tag.id} onClick={()=>{onToggleTag(tag.id)}} className={getClass(tag.id)}>{tag.name}</li>)}
+      {typeTags.map(tag=><li key={tag.id} onClick={()=>{onToggleTag(tag)}} className={getClass(tag.id)}>
+        <div><Icon name={tag.name}/></div>
+        <p>{tag.textValue}</p>
+      </li>)}
+      <li>
+        <NavLink to="/tags" >
+          <div>
+            <Icon name="add"/>
+          </div>
+          <p>编辑标签</p>
+        </NavLink>
+      </li>
   </ol>
-    <button onClick={addTag}>新增标签</button>
   </Wrapper>
   )
 }

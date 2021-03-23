@@ -54,7 +54,6 @@ function Money() {
       <NumberSection value={selected.amount}
                         onChange={amount => onChange({amount})}
                         onOk={submit}/>
-      {JSON.stringify(selected)}
     </MyLayout>
   );
 }

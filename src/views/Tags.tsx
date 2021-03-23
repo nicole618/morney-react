@@ -4,11 +4,10 @@ import {useTags} from 'hooks/useTags';
 import styled from 'styled-components';
 import Icon from 'components/Icon';
 import {Link,useLocation} from 'react-router-dom';
-import {Button as Button1} from 'components/Button';
 import {Center} from 'components/Center';
 import {Space} from '../components/Space';
 import {CategorySection} from './money/CategorySection';
-import {Category, categoryMap} from 'hooks/typeState';
+import {Category} from 'hooks/typeState';
 import { Modal ,Button,Icon as Iconrs} from 'rsuite';
 const TagList = styled.ol`
   padding: 16px 0;
@@ -103,7 +102,7 @@ function Tags() {
                         <span className="onLine">{tag.textValue}</span>
                       </div>
                       <div className="tagRight">
-                        <Link to={'/tags/'+tag.id}>
+                        <Link to={`/addEditTag/`+tag.id+'/'+tagType}>
                           <span>
                           <Icon name="editTag"/>
                         </span>
@@ -112,32 +111,35 @@ function Tags() {
                           <Icon name="deleteTag"/>
                         </span>
                       </div>
-                      <Modal backdrop="static" show={state} onHide={()=>close()} size="xs" >
-                        <Modal.Body>
-                          <Iconrs
-                            icon="remind"
-                            style={{
-                              color: '#ffb300',
-                              fontSize: 24
-                            }}
-                          />
-                           确认删除标签？
-                        </Modal.Body>
-                        <Modal.Footer>
-                          <Button onClick={()=>confirm()} appearance="primary">
-                            删除
-                          </Button>
-                          <Button onClick={()=>close()} appearance="subtle">
-                            取消
-                          </Button>
-                        </Modal.Footer>
-                      </Modal>
+
                     </li>
         )}
+        <Modal backdrop="static" show={state} onHide={()=>close()} size="xs" >
+          <Modal.Body>
+            <Iconrs
+              icon="remind"
+              style={{
+                color: '#ffb300',
+                fontSize: 24
+              }}
+            />
+            确认删除标签？
+          </Modal.Body>
+          <Modal.Footer>
+            <Button onClick={()=>confirm()} appearance="primary">
+              删除
+            </Button>
+            <Button onClick={()=>close()} appearance="subtle">
+              取消
+            </Button>
+          </Modal.Footer>
+        </Modal>
       </TagList>
       <Space/><Space/>
       <Center>
-        <Button1 onClick={addTag}>新增{tagType === '+' ? '收入':'支出'}标签</Button1>
+        <Link to={"/addEditTag/"+tagType}>
+          新增{tagType === '+' ? '收入':'支出'}标签
+        </Link>
       </Center>
       <Space/><Space/>
     </Layout>

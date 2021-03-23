@@ -11,6 +11,7 @@ import Statistics from 'views/Statistics';
 import NoMatch from 'views/NoMatch';
 import styled from 'styled-components';
 import {Tag} from 'views/Tag';
+import {AddEditTag} from './views/label/AddEditTag';
 
 const AppWrapper = styled.div`
   color: #333;
@@ -23,11 +24,17 @@ function App() {
             <Route path="/tags" exact>
               <Tags/>
             </Route>
-            <Route path="/tags/:id" exact>
-              <Tag/>
-            </Route>
             <Route path="/money" exact>
               <Money/>
+            </Route>
+            <Route path="/addEditTag" exact>
+              <AddEditTag/>
+            </Route>
+            <Route path="/addEditTag/:idString/:tagType" exact>
+              <AddEditTag/>
+            </Route>
+            <Route path="/addEditTag/:tagType" exact>
+              <AddEditTag/>
             </Route>
             <Route path="/statistics" exact>
               <Statistics/>

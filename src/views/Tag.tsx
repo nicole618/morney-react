@@ -5,7 +5,6 @@ import Layout from 'components/Layout';
 import Icon from 'components/Icon';
 import {Button} from 'components/Button';
 import styled from 'styled-components';
-import {Input} from 'components/Input';
 import {Center} from 'components/Center';
 import {Space} from 'components/Space';
 

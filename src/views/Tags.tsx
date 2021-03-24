@@ -9,6 +9,7 @@ import {Space} from '../components/Space';
 import {CategorySection} from './money/CategorySection';
 import {Category} from 'hooks/typeState';
 import { Modal ,Button,Icon as Iconrs} from 'rsuite';
+import NoData from '../components/NoData';
 const TagList = styled.ol`
   padding: 16px 0;
   flex-grow: 1;
@@ -61,7 +62,9 @@ const TagList = styled.ol`
       }
     }
   }
-  
+  &.hide{
+    display:none;
+  }
 `;
 function Tags() {
   const {findTagByType,deleteTag} = useTags();
@@ -93,7 +96,8 @@ function Tags() {
     <Layout>
       <CategorySection value={tagType}
                        onChange={tagType => onChange(tagType)}/>
-      <TagList className="hideScroll">
+
+      <TagList  className={tagsByType.length===0?'hideScroll hide':'hideScroll'}>
         {tagsByType.map(tag=>
                     <li key={tag.id}>
                       <div className="tagLeft">
@@ -133,6 +137,7 @@ function Tags() {
           </Modal.Footer>
         </Modal>
       </TagList>
+      <NoData className={tagsByType.length === 0 ?'show':''}/>
       <Space/><Space/>
       <Center>
         <Link to={"/addEditTag/"+tagType} className="addEdit">

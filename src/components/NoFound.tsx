@@ -19,6 +19,7 @@ const NoFounds = styled.div`
     align-items: center;
   }
 `;
+
 function NoFound(){
   return (
     <NoFounds>

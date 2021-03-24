@@ -11,6 +11,7 @@ import 'echarts/lib/chart/pie';
 import 'echarts/lib/component/tooltip';
 import dayjs from 'dayjs';
 import Icon from '../components/Icon';
+import NoData from '../components/NoData';
 
 type Query = {
   type: Category,
@@ -27,7 +28,12 @@ const StatisticsOl = styled.ol`
   &.hide {
     display: none;
   }
-
+  .RecordShow{
+    margin: 10px 0;
+    &.hide{
+      display: none;
+    }
+  }
   li {
     display: flex;
     justify-content: space-between;
@@ -103,19 +109,18 @@ function Statistics() {
   const onChange = (obj: Partial<typeof query>) => {
     setQuery({...query, ...obj});
   };
-  const resetData = () => {
+
+  const groupedList = () => {
     echartsData = [];
     totalAmount = 0;
     recordResult = [];
-  }
-  const groupedList = () => {
     if(query.dayType === '1'){
       setQuery({...query,dateTimeFormat:'YYYY-MM-DD'})
     }else if(query.dayType === '2'){
       setQuery({...query,dateTimeFormat:'YYYY-MM'})
     }
     const recordByType = records.filter(record => record.category === query.type);
-    if (recordByType.length === 0) {return;}
+    if (recordByType.length === 0) {setRItem([]);return;}
     let nowTime = query.dateTime;
     const hashmap: any = {};
     for (let i = 0; i < recordByType.length; i++) {
@@ -191,7 +196,6 @@ function Statistics() {
                });
   };
   useEffect(() => {
-    resetData();
     groupedList();
     getOption();
     // eslint-disable-next-line
@@ -202,30 +206,32 @@ function Statistics() {
       <DayType dayType={query.dayType} onChange={dayType => onChange({dayType})}/>
       <Pickers value={query.dateTime} onChange={(dateTime) => onChange({dateTime})} placeholder="请选择时间"
                format={query.dateTimeFormat} placement="bottomStart"/>
-      <div className="showEcharts">
-        <EChartsReact option={echarts}/>
+      <div className={rRItem.length>0?'hideScroll RecordShow':'hideScroll RecordShow hide'}>
+        <div className="showEcharts">
+          <EChartsReact option={echarts}/>
+        </div>
+        <StatisticsOl>
+          <li className="statisticsHead">
+            <span>总金额</span>
+            <span>￥{tAmount}</span>
+          </li>
+          {rRItem.map(record =>
+                        <li key={Math.random()}>
+                          <div className="statisticsLeft">
+                            <Icon name={record.tag.name}/>
+                            <span className="recordText">{record.tag.textValue}</span>
+                            <span>￥{record.amount}</span>
+                          </div>
+                          <div className="statisticsRight oneLine">
+                            {record.note}
+                          </div>
+                        </li>
+          )}
+        </StatisticsOl>
       </div>
-      <StatisticsOl>
-        <li className="statisticsHead">
-          <span>总金额</span>
-          <span>￥{tAmount}</span>
-        </li>
-        {rRItem.map(record =>
-                            <li key={Math.random()}>
-                              <div className="statisticsLeft">
-                                <Icon name={record.tag.name}/>
-                                <span className="recordText">{record.tag.textValue}</span>
-                                <span>￥{record.amount}</span>
-                              </div>
-                              <div className="statisticsRight oneLine">
-                                {record.note}
-                              </div>
-                            </li>
-        )}
-      </StatisticsOl>
-
+      <NoData className={rRItem.length === 0 ?'show':''}/>
     </Layout>
   );
-}
+};
 
 export default Statistics;

@@ -66,9 +66,9 @@ function Statistics() {
                                               dateTimeFormat: 'YYYY-MM-DD'
                                             });
   const {records} = useRecords();
-  const [echartsData, setEchartsData] = useState<Echarts[]>([]);
-  const [totalAmount, setTotalAmount] = useState<number>(0);
-  const [recordResult, setRecordResult] = useState<RecordItem[]>([]);
+  let echartsData: Echarts[] = [];
+  let totalAmount: number = 0;
+  let recordResult:RecordItem[] = [];
   const defaultEcharts = {
     title: {
       left: 'center'
@@ -97,14 +97,16 @@ function Statistics() {
     ],
     color: ['#eddcd1', '#d99061', '#fb5f03', '#f3eeeb', '#b49683', '#c6a932', '#d9e394', '#67c23a', '#946950', '#a7c4e2',],
   };
+  const [tAmount,setTAmount] = useState<number>(0);
+  const [rRItem,setRItem] = useState<RecordItem[]>([]);
   const [echarts, setEcharts] = useState<{ title: object, tooltip: object, legend: object, series: object, color: string[] }>(defaultEcharts);
   const onChange = (obj: Partial<typeof query>) => {
     setQuery({...query, ...obj});
   };
   const resetData = () => {
-    setRecordResult([]);
-    setEchartsData([]);
-    setTotalAmount(0);
+    echartsData = [];
+    totalAmount = 0;
+    recordResult = [];
   }
   const groupedList = () => {
     if(query.dayType === '1'){
@@ -121,9 +123,8 @@ function Statistics() {
         const recordTime = dayjs(recordByType[i].datetime).format('YYYY-MM-DD');
         const oldTime = dayjs(nowTime).format('YYYY-MM-DD');
         if (recordTime === oldTime) {
-          setTotalAmount(totalAmount + recordByType[i].amount);
-          recordResult.push(recordByType[i])
-          setRecordResult([...recordResult, recordByType[i]]);
+          totalAmount += recordByType[i].amount;
+          recordResult.push(recordByType[i]);
           const oldType: string | undefined = recordByType[i]&&recordByType[i].tag&&recordByType[i].tag.textValue;
           if (oldType === undefined) return;
           if (oldType in hashmap) {
@@ -136,8 +137,8 @@ function Statistics() {
         const recordTime = dayjs(recordByType[i].datetime).format('YYYY-MM');
         const oldTime = dayjs(nowTime).format('YYYY-MM');
         if (recordTime === oldTime) {
-          setTotalAmount(totalAmount + recordByType[i].amount);
-          setRecordResult([...recordResult, recordByType[i]]);
+          totalAmount += recordByType[i].amount;
+          recordResult.push(recordByType[i]);
           const oldType: string | undefined = recordByType[i]?.tag?.textValue;
           if (oldType === undefined) return;
           if (oldType in hashmap) {
@@ -153,9 +154,11 @@ function Statistics() {
         const obj = {name: '', value: 0};
         obj.name = key;
         obj.value = hashmap[key];
-        echartsData.push(obj);
+        echartsData.push(obj)
       }
     }
+    setTAmount(totalAmount);
+    setRItem(recordResult);
   };
   const getOption = () => {
     setEcharts({
@@ -205,9 +208,9 @@ function Statistics() {
       <StatisticsOl>
         <li className="statisticsHead">
           <span>总金额</span>
-          <span>￥{totalAmount}</span>
+          <span>￥{tAmount}</span>
         </li>
-        {recordResult.map(record =>
+        {rRItem.map(record =>
                             <li key={Math.random()}>
                               <div className="statisticsLeft">
                                 <Icon name={record.tag.name}/>

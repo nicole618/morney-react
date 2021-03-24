@@ -1,11 +1,10 @@
 import React from 'react';
+import NoFound from '../components/NoFound';
 
 function NoMatch() {
   return (
     <div>
-      <h3>
-        当前页面不存在，请重新输入地址！
-      </h3>
+      <NoFound/>
     </div>
   );
 }

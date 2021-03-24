@@ -1,88 +1,228 @@
 import Layout from 'components/Layout';
-import React, {ReactNode, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {CategorySection} from './money/CategorySection';
 import styled from 'styled-components';
-import {useRecords,RecordItem} from 'hooks/useRecords';
-import {useTags} from 'hooks/useTags';
-import day from 'dayjs'
+import {useRecords, RecordItem} from 'hooks/useRecords';
+import {DayType} from './DayType';
+import {Category} from '../hooks/typeState';
+import {Pickers} from './Pickers';
+import EChartsReact from 'echarts-for-react';
+import 'echarts/lib/chart/pie';
+import 'echarts/lib/component/tooltip';
+import dayjs from 'dayjs';
+import Icon from '../components/Icon';
 
-const CategoryWrapper = styled.div`
-  background: white;
-`;
-const Item =styled.div`
-  display: flex;
-  justify-content: space-between;
-  background: white;
-  font-size: 16px;
-  line-height: 20px;
-  padding: 10px 16px;
-  > .note{
-    margin-right: auto;
-    margin-left: 16px;
-    color: #999;
+type Query = {
+  type: Category,
+  dateTime: Date,
+  dayType: string,
+  dateTimeFormat: string
+}
+type Echarts = {
+  name: string;
+  value: number;
+}
+
+const StatisticsOl = styled.ol`
+  &.hide {
+    display: none;
+  }
+
+  li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 16px;
+    background: #f3eeeb;
+    border-top: 1px solid #fff;
+    &.statisticsHead {
+      background: #edccb8;
+    }
+    .statisticsRight {
+      flex-grow: 1;
+      margin-left: 20px;
+      text-align: right;
+      color: #999;
+    }
+    .statisticsLeft {
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      .recordText{
+        padding: 0 5px;
+      }
+      .icon {
+        color: #999;
+      }
+    }
   }
 `;
-const Header = styled.h3`
-  font-size: 18px;
-  padding: 10px 16px;
-  line-height: 20px;
-`;
-function Statistics() {
-  const [category,setCategory] = useState<'-'|'+'>('-');
-  const  {records} = useRecords();
-  const {getName} = useTags();
-  const selectedRecords = records.filter(r => r.category === category);
-  const hash:{[K:string]:RecordItem[]} = {};
-  /*selectedRecords.map((r) => {
-    const key = day(r.createAt).format('YYYY-MM-DD');
-    if(!(key in hash)){
-      hash[key] = [];
-    }
-    hash[key].push(r);
-    return '';
-  });*/
 
-  const array = Object.entries(hash).sort((a,b)=>{
-    if(a[0] === b[0]) return 0;
-    if(a[0]>b[0]) return -1;
-    if(a[0]>b[0]) return 1;
-    return 0;
-  })
+function Statistics() {
+  const [query, setQuery] = useState<Query>({
+                                              type: '-',
+                                              dateTime: new Date(),
+                                              dayType: '1',
+                                              dateTimeFormat: 'YYYY-MM-DD'
+                                            });
+  const {records} = useRecords();
+  const [echartsData, setEchartsData] = useState<Echarts[]>([]);
+  const [totalAmount, setTotalAmount] = useState<number>(0);
+  const [recordResult, setRecordResult] = useState<RecordItem[]>([]);
+  const defaultEcharts = {
+    title: {
+      left: 'center'
+    },
+    tooltip: {
+      trigger: 'item'
+    },
+    legend: {
+      orient: 'vertical',
+      left: 'left',
+    },
+    series: [
+      {
+        name: '金额统计',
+        type: 'pie',
+        radius: '50%',
+        data: echartsData,
+        emphasis: {
+          itemStyle: {
+            shadowBlur: 10,
+            shadowOffsetX: 0,
+            shadowColor: 'rgba(0, 0, 0, 0.5)'
+          }
+        }
+      }
+    ],
+    color: ['#eddcd1', '#d99061', '#fb5f03', '#f3eeeb', '#b49683', '#c6a932', '#d9e394', '#67c23a', '#946950', '#a7c4e2',],
+  };
+  const [echarts, setEcharts] = useState<{ title: object, tooltip: object, legend: object, series: object, color: string[] }>(defaultEcharts);
+  const onChange = (obj: Partial<typeof query>) => {
+    setQuery({...query, ...obj});
+  };
+  const resetData = () => {
+    setRecordResult([]);
+    setEchartsData([]);
+    setTotalAmount(0);
+  }
+  const groupedList = () => {
+    if(query.dayType === '1'){
+      setQuery({...query,dateTimeFormat:'YYYY-MM-DD'})
+    }else if(query.dayType === '2'){
+      setQuery({...query,dateTimeFormat:'YYYY-MM'})
+    }
+    const recordByType = records.filter(record => record.category === query.type);
+    if (recordByType.length === 0) {return;}
+    let nowTime = query.dateTime;
+    const hashmap: any = {};
+    for (let i = 0; i < recordByType.length; i++) {
+      if (query.dayType === '1') {
+        const recordTime = dayjs(recordByType[i].datetime).format('YYYY-MM-DD');
+        const oldTime = dayjs(nowTime).format('YYYY-MM-DD');
+        if (recordTime === oldTime) {
+          setTotalAmount(totalAmount + recordByType[i].amount);
+          recordResult.push(recordByType[i])
+          setRecordResult([...recordResult, recordByType[i]]);
+          const oldType: string | undefined = recordByType[i]&&recordByType[i].tag&&recordByType[i].tag.textValue;
+          if (oldType === undefined) return;
+          if (oldType in hashmap) {
+            hashmap[oldType] += recordByType[i].amount;
+          } else {
+            hashmap[oldType] = recordByType[i].amount;
+          }
+        }
+      } else if (query.dayType === '2') {
+        const recordTime = dayjs(recordByType[i].datetime).format('YYYY-MM');
+        const oldTime = dayjs(nowTime).format('YYYY-MM');
+        if (recordTime === oldTime) {
+          setTotalAmount(totalAmount + recordByType[i].amount);
+          setRecordResult([...recordResult, recordByType[i]]);
+          const oldType: string | undefined = recordByType[i]?.tag?.textValue;
+          if (oldType === undefined) return;
+          if (oldType in hashmap) {
+            hashmap[oldType] += recordByType[i].amount;
+          } else {
+            hashmap[oldType] = recordByType[i].amount;
+          }
+        }
+      }
+    }
+    for (let key in hashmap) {
+      if (hashmap.hasOwnProperty(key)) {
+        const obj = {name: '', value: 0};
+        obj.name = key;
+        obj.value = hashmap[key];
+        echartsData.push(obj);
+      }
+    }
+  };
+  const getOption = () => {
+    setEcharts({
+                 title: {
+                   left: 'center'
+                 },
+                 tooltip: {
+                   trigger: 'item'
+                 },
+                 legend: {
+                   orient: 'vertical',
+                   left: 'left',
+                 },
+                 series: [
+                   {
+                     name: '金额统计',
+                     type: 'pie',
+                     radius: '50%',
+                     data: echartsData,
+                     emphasis: {
+                       itemStyle: {
+                         shadowBlur: 10,
+                         shadowOffsetX: 0,
+                         shadowColor: 'rgba(0, 0, 0, 0.5)'
+                       }
+                     }
+                   }
+                 ],
+                 color: ['#eddcd1', '#d99061', '#fb5f03', '#f3eeeb', '#b49683', '#c6a932', '#d9e394', '#67c23a', '#946950', '#a7c4e2',],
+               });
+  };
+  useEffect(() => {
+    resetData();
+    groupedList();
+    getOption();
+    // eslint-disable-next-line
+  }, [records,query.type,query.dayType,query.dateTime]);
   return (
     <Layout>
-      <CategoryWrapper>
-      <CategorySection value={category} onChange={value => setCategory(value)}/>
-      </CategoryWrapper>
-      {/*<div>
-        {array.map(([date,records])=> <div key={Math.random()}>
-          <Header>{date}</Header>
-          <div>
-            {
-              records.map(r=>{
-                return <Item key={Math.random()}>
-                  <div className="tags onLine">
-                    {r.tag.map(tag => <span key={tag.id}>{
-                      getName(tag.id)}</span>).reduce(
-                        (result,span,index,array)=>
-                          result.concat(index<array.length-1?[span,',']:[span]),[] as ReactNode[])}
-                  </div>
-                  {r.note && <div className="note">
-                    {r.note}
-                  </div>}
-                  <div className="amount">
-                    ￥{r.amount}
-                  </div>
-                </Item>
-              })
-            }
-          </div>
-        </div>
-
+      <CategorySection value={query.type} onChange={type => onChange({type})}/>
+      <DayType dayType={query.dayType} onChange={dayType => onChange({dayType})}/>
+      <Pickers value={query.dateTime} onChange={(dateTime) => onChange({dateTime})} placeholder="请选择时间"
+               format={query.dateTimeFormat} placement="bottomStart"/>
+      <div className="showEcharts">
+        <EChartsReact option={echarts}/>
+      </div>
+      <StatisticsOl>
+        <li className="statisticsHead">
+          <span>总金额</span>
+          <span>￥{totalAmount}</span>
+        </li>
+        {recordResult.map(record =>
+                            <li key={Math.random()}>
+                              <div className="statisticsLeft">
+                                <Icon name={record.tag.name}/>
+                                <span className="recordText">{record.tag.textValue}</span>
+                                <span>￥{record.amount}</span>
+                              </div>
+                              <div className="statisticsRight oneLine">
+                                {record.note}
+                              </div>
+                            </li>
         )}
+      </StatisticsOl>
 
-      </div>*/}
     </Layout>
   );
 }
 
-export default  Statistics;
+export default Statistics;

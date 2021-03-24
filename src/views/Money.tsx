@@ -47,7 +47,7 @@ function Money() {
                    type = {selected.category}
       />
       <NoteSection value={selected.note}
-                   onChange={note => onChange({note})} label="备注" placeholder="请输入备注"/>
+                   onChange={note => onChange({note})} label="备注：" placeholder="请输入备注"/>
       <Pickers value={selected.datetime} onChange={datetime => onChange({datetime})} placeholder="请输入日期" format="YYYY-MM-DD" placement="topStart"/>
       <NumberSection value={selected.amount}
                         onChange={amount => onChange({amount})}

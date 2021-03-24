@@ -95,7 +95,7 @@ const useTags = () =>{ //封装一个自定义Hook
     setTags(tags.filter(tag=>tag.id !== id))
   }
   const addTag = (tag: Tag) =>{
-    setTags([...tags,{...tag,id:createId()}]);
+      setTags([...tags, {...tag,id: createId()}])
   }
   const getName = (id:number) =>{
     const tag = tags.filter(t=>t.id === id)[0];

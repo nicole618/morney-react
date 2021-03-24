@@ -9,7 +9,7 @@
   background-color: $color-highLight;
 
 }
-.rs-calendar-table-cell-selected .rs-calendar-table-cell-content{
+.rs-calendar-table-cell-selected .rs-calendar-table-cell-content,.rs-calendar-month-dropdown-cell-active .rs-calendar-month-dropdown-cell-content{
   background-color: $color-highLight;
   border: none;
 }
@@ -22,7 +22,8 @@
 .rs-picker-toolbar-option{
   color: inherit;
 }
-.rs-picker-toolbar-option:hover{
+
+.rs-picker-toolbar-option:hover,.rs-calendar-month-dropdown-year-active,.rs-calendar-show-month-dropdown .rs-calendar-header-title-date{
   color: $color-highLight;
 }
 .rs-calendar-table-cell-content:hover{

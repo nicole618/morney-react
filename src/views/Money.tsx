@@ -25,21 +25,21 @@ const defaultFormData: RecordItem = {
 };
 
 function Money() {
-  const [selected,setSelected] = useState(defaultFormData);
+  const [selected,setSelected] = useState<RecordItem>(defaultFormData);
   const {addRecord} = useRecords();
   const onChange = (obj: Partial<typeof selected>) => {
     setSelected({...selected, ...obj});
   };
   const submit = () => {
     if (addRecord(selected)) {
-      Alert.success('保存成功');
       setSelected(defaultFormData);
+      Alert.success('保存成功');
     }
+
   };
 
   return (
     <MyLayout>
-
       <CategorySection value={selected.category}
                        onChange={category => onChange({category})}/>
       <TagsSection value={selected.tag}

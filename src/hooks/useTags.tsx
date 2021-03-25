@@ -1,6 +1,5 @@
-import {useEffect, useState} from 'react';
+import {useState} from 'react';
 import {createId} from 'lib/createId';
-import {useUpdate} from 'hooks/useUpdate';
 import {Category} from './typeState';
 
 export  type Tag = {
@@ -11,69 +10,65 @@ export  type Tag = {
 }
 
 const useTags = () =>{ //封装一个自定义Hook
-  const [tags,setTags] = useState<Tag[]>([]);
-  useUpdate(() => {
-    window.localStorage.setItem('tags', JSON.stringify(tags));
-  }, tags)
-  useEffect(()=>{
-    let lTags = window.localStorage.getItem('tags');
-    let localTags;
-    if(lTags){
-      localTags =JSON.parse(lTags)
-    }else{
-      localTags =[
-        {
-          id: createId(),
-          name: 'clothing',
-          textValue: '衣',
-          type: '-'
-        },
-        {
-          id: createId(),
-          name: 'food',
-          textValue: '食',
-          type: '-'
-        },
-        {
-          id: createId(),
-          name: 'live',
-          textValue: '住',
-          type: '-'
-        },
-        {
-          id: createId(),
-          name: 'travel',
-          textValue: '行',
-          type: '-'
-        },
-        {
-          id: createId(),
-          name: 'wages',
-          textValue: '工资',
-          type: '+'
-        },
-        {
-          id: createId(),
-          name: 'stock',
-          textValue: '股票',
-          type: '+'
-        },
-        {
-          id: createId(),
-          name: 'fiscal',
-          textValue: '理财',
-          type: '+'
-        },
-        {
-          id: createId(),
-          name: 'lottery',
-          textValue: '彩票',
-          type: '+'
-        }
-      ]
-    }
-    setTags(localTags)
-  },[])
+  let lTags = window.localStorage.getItem('tags');
+  let localTags: Tag[];
+  if(lTags){
+    localTags =JSON.parse(lTags)
+  }else{
+    localTags =[
+      {
+        id: createId(),
+        name: 'clothing',
+        textValue: '衣',
+        type: '-'
+      },
+      {
+        id: createId(),
+        name: 'food',
+        textValue: '食',
+        type: '-'
+      },
+      {
+        id: createId(),
+        name: 'live',
+        textValue: '住',
+        type: '-'
+      },
+      {
+        id: createId(),
+        name: 'travel',
+        textValue: '行',
+        type: '-'
+      },
+      {
+        id: createId(),
+        name: 'wages',
+        textValue: '工资',
+        type: '+'
+      },
+      {
+        id: createId(),
+        name: 'stock',
+        textValue: '股票',
+        type: '+'
+      },
+      {
+        id: createId(),
+        name: 'fiscal',
+        textValue: '理财',
+        type: '+'
+      },
+      {
+        id: createId(),
+        name: 'lottery',
+        textValue: '彩票',
+        type: '+'
+      }
+    ]
+    window.localStorage.setItem('tags', JSON.stringify(localTags));
+  }
+
+  const [tags,setTags] = useState<Tag[]>(localTags);
   const findTag = (id:number) => tags.filter(tag=>tag.id === id)[0];
   const findTagIndex = (id:number)=>{
     let result = -1;
@@ -89,13 +84,14 @@ const useTags = () =>{ //封装一个自定义Hook
     return tags.filter(tag => tag.type === type);
   }
   const updateTag = (id:number,obj:{name:string,textValue: string,type:string})=>{
-    setTags(tags.map(tag=>tag.id === id ?{id:id,name:obj.name,type:obj.type,textValue:obj.textValue}:tag));
+    window.localStorage.setItem('tags', JSON.stringify(tags.map(tag=>tag.id === id ?{id:id,name:obj.name,type:obj.type,textValue:obj.textValue}:tag)));
   };
   const deleteTag = (id:number)=>{
-    setTags(tags.filter(tag=>tag.id !== id))
+    setTags(tags.filter(tag=>tag.id !== id));
+    window.localStorage.setItem('tags', JSON.stringify(tags.filter(tag=>tag.id !== id)));
   }
   const addTag = (tag: Tag) =>{
-      setTags([...tags, {...tag,id: createId()}])
+    window.localStorage.setItem('tags', JSON.stringify([...tags, {...tag,id: createId()}]));
   }
   const getName = (id:number) =>{
     const tag = tags.filter(t=>t.id === id)[0];

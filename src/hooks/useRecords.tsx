@@ -29,7 +29,7 @@ export const useRecords =()=>{
       }
       return false;
       }
-    if(newRecord.tag.id === -1){
+    if(newRecord.tag.id === -1 || newRecord.tag.id === undefined){
       if (document.querySelectorAll('.rs-alert-item-wrapper').length>0){
         return false;
       }else{

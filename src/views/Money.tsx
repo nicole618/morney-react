@@ -33,7 +33,7 @@ function Money() {
   const submit = () => {
     if (addRecord(selected)) {
       setTimeout(()=>{
-        setSelected({...defaultFormData})
+        setSelected({...defaultFormData,category:selected.category});
       },0)
       Alert.success('保存成功');
     }

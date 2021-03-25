@@ -6,7 +6,7 @@ import Icon from 'components/Icon';
 type Props = {
   value:number,
   onChange:(value:number)=>void
-  onOk?:()=>void
+  onOk:()=>void
 }
 const NumberSection:React.FC<Props> = (props)=>{
   const [output, _setOutput] = useState(props.value.toString());

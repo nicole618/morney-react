@@ -32,11 +32,13 @@ function Money() {
   };
   const submit = () => {
     if (addRecord(selected)) {
-      setSelected(defaultFormData);
+      setTimeout(()=>{
+        setSelected({...defaultFormData})
+      },0)
       Alert.success('保存成功');
     }
-
   };
+
 
   return (
     <MyLayout>
@@ -51,7 +53,7 @@ function Money() {
       <Pickers value={selected.datetime} onChange={datetime => onChange({datetime})} placeholder="请输入日期" format="YYYY-MM-DD" placement="topStart"/>
       <NumberSection value={selected.amount}
                         onChange={amount => onChange({amount})}
-                        onOk={submit}/>
+                        onOk={()=>{submit()}}/>
     </MyLayout>
   );
 }

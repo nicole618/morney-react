@@ -84,6 +84,7 @@ const useTags = () =>{ //封装一个自定义Hook
     return tags.filter(tag => tag.type === type);
   }
   const updateTag = (id:number,obj:{name:string,textValue: string,type:string})=>{
+    setTags(tags.map(tag=>tag.id === id ?{id:id,name:obj.name,type:obj.type,textValue:obj.textValue}:tag));
     window.localStorage.setItem('tags', JSON.stringify(tags.map(tag=>tag.id === id ?{id:id,name:obj.name,type:obj.type,textValue:obj.textValue}:tag)));
   };
   const deleteTag = (id:number)=>{

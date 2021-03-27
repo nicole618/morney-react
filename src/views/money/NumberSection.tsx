@@ -28,7 +28,12 @@ const NumberSection: React.FC<Props> = (props) => {
     props.onChange(parseFloat(newOutput));
   };
   const onClickButtonWrapper = (e: React.MouseEvent) => {
-    const text = (e.target as HTMLButtonElement).textContent;
+    let text;
+    if ((e.target as HTMLButtonElement).className.trim() === 'delete'){
+      text = 'delete'
+    }else{
+      text = (e.target as HTMLButtonElement).textContent;
+    }
     if (text === null) return;
     if (text === 'ok') {
       if (props.onOk) {
@@ -36,7 +41,7 @@ const NumberSection: React.FC<Props> = (props) => {
       }
       return;
     }
-    if ('0123456789.'.split('').concat('删除', '清空').indexOf(text) >= 0) {
+    if ('0123456789.'.split('').concat('delete', '清空').indexOf(text) >= 0) {
       setOutput(generateOutput(text, output));
     }
   };
@@ -47,7 +52,7 @@ const NumberSection: React.FC<Props> = (props) => {
         <button>1</button>
         <button>2</button>
         <button>3</button>
-        <button><Icon name="delete"/></button>
+        <button className="delete"><Icon name="delete"/></button>
         <button>4</button>
         <button>5</button>
         <button>6</button>

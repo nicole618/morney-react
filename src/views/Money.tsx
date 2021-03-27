@@ -26,12 +26,17 @@ const defaultFormData: RecordItem = {
 
 function Money() {
   const [selected,setSelected] = useState<RecordItem>(defaultFormData);
+  const [changeAmount,setChangeAmount] = useState<Boolean>(false);
   const {addRecord} = useRecords();
   const onChange = (obj: Partial<typeof selected>) => {
     setSelected({...selected, ...obj});
   };
   const submit = () => {
     if (addRecord(selected)) {
+      setChangeAmount(true);
+      setTimeout(()=>{
+        setChangeAmount(false);
+      },1000)
       setTimeout(()=>{
         setSelected({...defaultFormData,category:selected.category});
       },0)
@@ -52,6 +57,7 @@ function Money() {
                    onChange={note => onChange({note})} label="备注：" placeholder="请输入备注"/>
       <Pickers value={selected.datetime} onChange={datetime => onChange({datetime})} placeholder="请输入日期" format="YYYY-MM-DD" placement="topStart"/>
       <NumberSection value={selected.amount}
+                     changeAmount = {changeAmount}
                         onChange={amount => onChange({amount})}
                         onOk={()=>{submit()}}/>
     </MyLayout>
